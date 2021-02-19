@@ -3,7 +3,7 @@ import logging
 import discord
 from redbot.core import commands, Config, checks
 from redbot.core.utils.menus import menu, commands, DEFAULT_CONTROLS
-from urllib.parse import urlencode
+from urllib.parse import quote
 
 log = logging.getLogger("red.zonk-cogs.opencritic")
 
@@ -25,7 +25,7 @@ class OpenCritic(commands.Cog):
         headers = {"accept": "application/json"}
 
         # Queries api for a game
-        searchUrl = apiUrl + '/game/search?criteria=' + urlencode(title)
+        searchUrl = apiUrl + '/game/search?criteria=' + quote(title)
         async with aiohttp.ClientSession() as session:
             async with session.get(url=searchUrl, headers=headers) as response:
                 data = await response.json()
