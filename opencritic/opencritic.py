@@ -82,7 +82,7 @@ class OpenCritic(commands.Cog):
         await menu(ctx, pages=embeds, controls=DEFAULT_CONTROLS, message=None, page=0, timeout=20)
     
     async def getAll(self, session, urls):
-        log.debug('in getall')
+        log.debug('in getall '+ str(datetime.now()))
         tasks = []
         for url in urls:
             task = asyncio.create_task(OpenCritic.get(self, session, url))
@@ -91,7 +91,7 @@ class OpenCritic(commands.Cog):
         return results
 
     async def get(self, session, url):
-        log.debug('in getall for url '+url)
+        log.debug('in getall for url '+url+' '+ str(datetime.now()))
         async with session.get(url) as response:
             if response.status != 200:
                 response.raise_for_status()
