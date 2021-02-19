@@ -68,7 +68,7 @@ class OpenCritic(commands.Cog):
             
             if result.get('Platforms'):
                 for platform in result.get('Platforms'):
-                    platforms.append(platform.shortName)
+                    platforms.append(platform['shortName'])
 
             if result.get('tier'):
                 score = round(result['averageScore'])
