@@ -99,7 +99,7 @@ class OpenCritic(commands.Cog):
                 bannerUrl = 'https:'+result['bannerScreenshot']['fullRes']
 
             # Build Embed
-            embed = discord.Embed(colour = int(color, 16))
+            embed = discord.Embed(url = 'https://www.opencritic.com/game/{}/a'.format(result['id']), colour = int(color, 16))
             embed.title = "{} ({})".format(result['name'], scoreInfo)
 
             if description:
