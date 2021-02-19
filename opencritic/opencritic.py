@@ -25,7 +25,7 @@ class OpenCritic(commands.Cog):
     @commands.bot_has_permissions(embed_links=True, add_reactions=True)
     async def opencritic(self, ctx, *, title):
         """Search for a game"""
-        log.debug('in command now ' + datetime.now())
+        log.debug('in command now ' + str(datetime.now()))
 
         apiUrl = "https://api.opencritic.com/api"
         headers = {"accept": "application/json"}
@@ -36,7 +36,7 @@ class OpenCritic(commands.Cog):
             async with session.get(url=searchUrl, headers=headers) as response:
                 data = await response.json()
 
-        log.debug('received results from name '+ datetime.now())
+        log.debug('received results from name '+ str(datetime.now()))
         # Handle if nothing is found
         if len(data) == 0:
             await ctx.send("I couldn't find anything! Try it with another title!")
