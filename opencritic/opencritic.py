@@ -8,6 +8,7 @@ from redbot.core.utils.menus import menu, commands, DEFAULT_CONTROLS
 from urllib.parse import quote
 
 log = logging.getLogger("red.zonk-cogs.opencritic")
+log.setLevel(logging.DEBUG)
 
 class OpenCritic(commands.Cog):
     """Search for games' score on OpenCritic"""
@@ -50,6 +51,7 @@ class OpenCritic(commands.Cog):
         async with aiohttp.ClientSession() as session:
             results = await OpenCritic.getAll(self, session, urls)
 
+        log.debug('creating embeds now')
         for result in results:
             # Build Embed
             embed = discord.Embed()
@@ -76,6 +78,7 @@ class OpenCritic(commands.Cog):
         await menu(ctx, pages=embeds, controls=DEFAULT_CONTROLS, message=None, page=0, timeout=20)
     
     async def getAll(self, session, urls):
+        log.debug('in getall')
         tasks = []
         for url in urls:
             task = asyncio.create_task(OpenCritic.get(self, session, url))
@@ -84,6 +87,7 @@ class OpenCritic(commands.Cog):
         return results
 
     async def get(self, session, url):
+        log.debug('in getall for url '+url)
         async with session.get(url) as response:
             if response.status != 200:
                 response.raise_for_status()
