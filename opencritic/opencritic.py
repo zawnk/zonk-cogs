@@ -56,25 +56,46 @@ class OpenCritic(commands.Cog):
 
         log.debug('creating embeds now')
         for result in results:
+            description = None
+            platforms = None
+            color = None
+
+            if result.get('description'):
+                if len(result.get('description')) < 500:
+                    description = result.get('description')
+                else:
+                    description = result.get('description')[:497]+'...'
+            
+            if result.get('Platforms'):
+                for platform in result.get('Platforms'):
+                    platforms.append(platform.shortName)
+
+            if result.get('tier'):
+                score = round(result['averageScore'])
+
+                color = '80b60a'
+
+                if score > 65:
+                    color = '4aa1ce'
+                if score > 74:
+                    color = '9e00b4'
+                if score > 83:
+                    color = 'fc430a'
+
             # Build Embed
-            embed = discord.Embed()
+            embed = discord.Embed(colour = int(color, 16))
             embed.title = "{} ({})".format(result['name'], round(result['averageScore'], 2))
             # if data['imdbID']:
             #    embed.url = "http://www.imdb.com/title/{}".format(data['imdbID'])
-            if result.get('description'):
-               embed.description = result['description'][:500]
-            if result.get('mastheadScreenshot', {}).get('thumbnail'):
-               embed.set_thumbnail(url='https:'+result['mastheadScreenshot']['thumbnail'])
+            if description:
+               embed.description = description
+            if result.get('logoScreenshot', {}).get('thumbnail'):
+               embed.set_thumbnail(url='https:'+result['logoScreenshot']['thumbnail'])
             if result.get('tier'):
                embed.add_field(name="Tier", value=result.get('tier', 'n/a'))
-            # if data['Genre']:
-            #    embed.add_field(name="Genre", value=data.get('Genre', 'N/A'))
-            # if data.get("BoxOffice"):
-            #    embed.add_field(name="Box Office", value=data.get('BoxOffice', 'N/A'))
-            # if data['Metascore']:
-            #    embed.add_field(name="Metascore", value=data.get('Metascore', 'N/A'))
-            # if data['imdbRating']:
-            #    embed.add_field(name="IMDb", value=data.get('imdbRating', 'N/A'))
+            if platforms:
+               embed.add_field(name="Platforms", value=', '.join(platforms))
+
             embed.set_footer(text="Powered by OpenCritic")
             embeds.append(embed)
 
