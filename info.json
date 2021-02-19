@@ -1,0 +1,8 @@
+{
+    "author" : ["zonk"],
+    "install_msg" : "Thanks for using my cog :)\nFor more information on my cogs go to my github here: <https://github.com/zawnk/zonk-cogs/>",
+    "name" : "zonk-cogs",
+    "short" : "Cogs by zonk",
+    "description" : "A repository for cogs that may grow over time. Currently, there's only a cog to search for games on OpenCritic.",
+    "tags" : ["Fun", "Games", "Gaming", "OpenCritic"]
+}
