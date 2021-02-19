@@ -51,7 +51,7 @@ class OpenCritic(commands.Cog):
                 #     async with session.get(url=url, headers=headers) as response:
                 #         data = await response.json()
                 #         log.debug(data)
-                task = asyncio.create_task(get(session, url))
+                task = asyncio.create_task(OpenCritic.get(session, url))
                 tasks.append(task)
 
         results = await asyncio.gather(*tasks)
