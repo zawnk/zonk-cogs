@@ -53,22 +53,22 @@ class OpenCritic(commands.Cog):
             # Build Embed
             embed = discord.Embed()
             embed.title = "{} ({})".format(data['name'], data['medianScore'])
-            if data['imdbID']:
-               embed.url = "http://www.imdb.com/title/{}".format(data['imdbID'])
-            if data['Plot']:
-               embed.description = data['Plot'][:500]
-            if data['Poster'] != "N/A":
-               embed.set_thumbnail(url=data['Poster'])
-            if data['Runtime']:
-               embed.add_field(name="Runtime", value=data.get('Runtime', 'N/A'))
-            if data['Genre']:
-               embed.add_field(name="Genre", value=data.get('Genre', 'N/A'))
-            if data.get("BoxOffice"):
-               embed.add_field(name="Box Office", value=data.get('BoxOffice', 'N/A'))
-            if data['Metascore']:
-               embed.add_field(name="Metascore", value=data.get('Metascore', 'N/A'))
-            if data['imdbRating']:
-               embed.add_field(name="IMDb", value=data.get('imdbRating', 'N/A'))
+            # if data['imdbID']:
+            #    embed.url = "http://www.imdb.com/title/{}".format(data['imdbID'])
+            # if data['Plot']:
+            #    embed.description = data['Plot'][:500]
+            # if data['Poster'] != "N/A":
+            #    embed.set_thumbnail(url=data['Poster'])
+            # if data['Runtime']:
+            #    embed.add_field(name="Runtime", value=data.get('Runtime', 'N/A'))
+            # if data['Genre']:
+            #    embed.add_field(name="Genre", value=data.get('Genre', 'N/A'))
+            # if data.get("BoxOffice"):
+            #    embed.add_field(name="Box Office", value=data.get('BoxOffice', 'N/A'))
+            # if data['Metascore']:
+            #    embed.add_field(name="Metascore", value=data.get('Metascore', 'N/A'))
+            # if data['imdbRating']:
+            #    embed.add_field(name="IMDb", value=data.get('imdbRating', 'N/A'))
             embed.set_footer(text="Powered by OpenCritic")
             embeds.append(embed)
 
