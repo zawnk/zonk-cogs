@@ -48,25 +48,8 @@ class OpenCritic(commands.Cog):
             urls.append(gameUrl + str(game['id']))
         
         async with aiohttp.ClientSession() as session:
-            results = await OpenCritic.getAll(session, urls)
+            results = await OpenCritic.getAll(self, session, urls)
 
-
-        # # Loop and ask for more information and build embed
-        # gameUrl = apiUrl + '/game/'
-        # async with aiohttp.ClientSession() as session:
-        #     tasks = []
-        #     for game in data:
-        #         # Queries api for a game information
-        #         url = gameUrl + str(game['id'])
-        #         # async with aiohttp.ClientSession() as session:
-        #         #     async with session.get(url=url, headers=headers) as response:
-        #         #         data = await response.json()
-        #         #         log.debug(data)
-        #         task = asyncio.create_task(OpenCritic.get(session, url))
-        #         tasks.append(task)
-
-        # results = await asyncio.gather(*tasks)
-        
         for result in results:
             # Build Embed
             embed = discord.Embed()
@@ -92,15 +75,15 @@ class OpenCritic(commands.Cog):
 
         await menu(ctx, pages=embeds, controls=DEFAULT_CONTROLS, message=None, page=0, timeout=20)
     
-    async def getAll(session, urls):
+    async def getAll(self, session, urls):
         tasks = []
         for url in urls:
-            task = asyncio.create_task(OpenCritic.get(session, url))
+            task = asyncio.create_task(OpenCritic.get(self, session, url))
             tasks.append(task)
         results = await asyncio.gather(*tasks)
         return results
 
-    async def get(session, url):
+    async def get(self, session, url):
         async with session.get(url) as response:
             if response.status != 200:
                 response.raise_for_status()
