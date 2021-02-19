@@ -33,8 +33,7 @@ class OpenCritic(commands.Cog):
         # Queries api for a game
         searchUrl = apiUrl + '/game/search?criteria=' + quote(title)
         async with aiohttp.ClientSession() as session:
-            async with session.get(url=searchUrl, headers=headers) as response:
-                data = await response.json()
+            data = await OpenCritic.get(self, session, searchUrl)
 
         log.debug('received results from name '+ str(datetime.now()))
         # Handle if nothing is found
