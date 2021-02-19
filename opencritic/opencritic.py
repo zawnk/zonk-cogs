@@ -10,7 +10,7 @@ from redbot.core.utils.menus import menu, commands, DEFAULT_CONTROLS
 from urllib.parse import quote
 
 log = logging.getLogger("red.zonk-cogs.opencritic")
-# log.setLevel(logging.DEBUG)
+log.setLevel(logging.WARN)
 
 class OpenCritic(commands.Cog):
     """Search for games' score on OpenCritic"""
@@ -57,8 +57,9 @@ class OpenCritic(commands.Cog):
         log.debug('creating embeds now')
         for result in results:
             description = None
+            scoreInfo = None
             platforms = []
-            color = '80B60A'
+            color = '000000'
 
             if result.get('description'):
                 if len(result.get('description')) < 500:
@@ -73,22 +74,30 @@ class OpenCritic(commands.Cog):
             if result.get('tier'):
                 score = round(result['averageScore'])
 
+                if score > 0:
+                    color = '80B60A'
                 if score > 65:
                     color = '4AA1CE'
                 if score > 74:
                     color = '9E00B4'
                 if score > 83:
                     color = 'FC430A'
+            
+            if result['averageScore'] > 0:
+                scoreInfo = round(result['averageScore'], 2)
+            else:
+                scoreInfo = 'No score'
 
             # Build Embed
             embed = discord.Embed(colour = int(color, 16))
-            embed.title = "{} ({})".format(result['name'], round(result['averageScore'], 2))
-            # if data['imdbID']:
-            #    embed.url = "http://www.imdb.com/title/{}".format(data['imdbID'])
+            embed.title = "{} ({})".format(result['name'], )
+
             if description:
                embed.description = description
             if result.get('logoScreenshot', {}).get('fullRes'):
                embed.set_thumbnail(url='https:'+result['logoScreenshot']['fullRes'])
+            if result.get('numReviews'):
+                embed.add_field(name="# of Reviews", value=result.get('numReviews', 'n/a'))
             if result.get('tier'):
                embed.add_field(name="Tier", value=result.get('tier', 'n/a'))
             if len(platforms) > 0:
