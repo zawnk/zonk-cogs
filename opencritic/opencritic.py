@@ -90,7 +90,7 @@ class OpenCritic(commands.Cog):
 
             # Build Embed
             embed = discord.Embed(colour = int(color, 16))
-            embed.title = "{} ({})".format(result['name'], )
+            embed.title = "{} ({})".format(result['name'], scoreInfo)
 
             if description:
                embed.description = description
