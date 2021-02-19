@@ -10,7 +10,7 @@ from redbot.core.utils.menus import menu, commands, DEFAULT_CONTROLS
 from urllib.parse import quote
 
 log = logging.getLogger("red.zonk-cogs.opencritic")
-log.setLevel(logging.DEBUG)
+# log.setLevel(logging.DEBUG)
 
 class OpenCritic(commands.Cog):
     """Search for games' score on OpenCritic"""
@@ -58,15 +58,15 @@ class OpenCritic(commands.Cog):
         for result in results:
             # Build Embed
             embed = discord.Embed()
-            embed.title = "{} ({})".format(result['name'], result['medianScore'])
+            embed.title = "{} ({})".format(result['name'], round(result['averageScore'], 2))
             # if data['imdbID']:
             #    embed.url = "http://www.imdb.com/title/{}".format(data['imdbID'])
-            # if data['Plot']:
-            #    embed.description = data['Plot'][:500]
-            # if data['Poster'] != "N/A":
-            #    embed.set_thumbnail(url=data['Poster'])
-            # if data['Runtime']:
-            #    embed.add_field(name="Runtime", value=data.get('Runtime', 'N/A'))
+            if result.get('description'):
+               embed.description = result['description'][:500]
+            if result.get('mastheadScreenshot', {}).get('thumbnail'):
+               embed.set_thumbnail(url=result['mastheadScreenshot']['thumbnail'])
+            if result.get('tier'):
+               embed.add_field(name="Tier", value=data.get('tier', 'n/a'))
             # if data['Genre']:
             #    embed.add_field(name="Genre", value=data.get('Genre', 'N/A'))
             # if data.get("BoxOffice"):
