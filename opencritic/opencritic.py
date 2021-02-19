@@ -64,7 +64,7 @@ class OpenCritic(commands.Cog):
             if result.get('description'):
                embed.description = result['description'][:500]
             if result.get('mastheadScreenshot', {}).get('thumbnail'):
-               embed.set_thumbnail(url=result['mastheadScreenshot']['thumbnail'])
+               embed.set_thumbnail(url='https:'+result['mastheadScreenshot']['thumbnail'])
             if result.get('tier'):
                embed.add_field(name="Tier", value=result.get('tier', 'n/a'))
             # if data['Genre']:
