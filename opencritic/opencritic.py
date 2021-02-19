@@ -87,12 +87,12 @@ class OpenCritic(commands.Cog):
             #    embed.url = "http://www.imdb.com/title/{}".format(data['imdbID'])
             if description:
                embed.description = description
-            if result.get('logoScreenshot', {}).get('thumbnail'):
-               embed.set_thumbnail(url='https:'+result['logoScreenshot']['thumbnail'])
+            if result.get('logoScreenshot', {}).get('fullRes'):
+               embed.set_thumbnail(url='https:'+result['logoScreenshot']['fullRes'])
             if result.get('tier'):
                embed.add_field(name="Tier", value=result.get('tier', 'n/a'))
             if len(platforms) > 0:
-               embed.add_field(name="Platforms", value=', '.join(platforms))
+               embed.add_field(name="Platform(s)", value=', '.join(platforms))
 
             embed.set_footer(text="Powered by OpenCritic")
             embeds.append(embed)
