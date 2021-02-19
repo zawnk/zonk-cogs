@@ -58,6 +58,7 @@ class OpenCritic(commands.Cog):
         for result in results:
             description = None
             scoreInfo = None
+            bannerUrl = None
             platforms = []
             color = '000000'
 
@@ -88,14 +89,23 @@ class OpenCritic(commands.Cog):
             else:
                 scoreInfo = 'No score'
 
+            if result.get('logoScreenshot', {}).get('thumbnail'):
+                bannerUrl = 'https:'+result['logoScreenshot']['thumbnail']
+            elif result.get('logoScreenshot', {}).get('fullRes'):
+                bannerUrl = 'https:'+result['logoScreenshot']['fullRes']
+            elif result.get('bannerScreenshot', {}).get('thumbnail'):
+                bannerUrl = 'https:'+result['bannerScreenshot']['thumbnail']
+            elif result.get('bannerScreenshot', {}).get('fullRes'):
+                bannerUrl = 'https:'+result['bannerScreenshot']['fullRes']
+
             # Build Embed
             embed = discord.Embed(colour = int(color, 16))
             embed.title = "{} ({})".format(result['name'], scoreInfo)
 
             if description:
                embed.description = description
-            if result.get('logoScreenshot', {}).get('fullRes'):
-               embed.set_thumbnail(url='https:'+result['logoScreenshot']['fullRes'])
+            if bannerUrl:
+               embed.set_thumbnail(url=bannerUrl)
             if result.get('numReviews'):
                 embed.add_field(name="# of Reviews", value=result.get('numReviews', 'n/a'))
             if result.get('tier'):
