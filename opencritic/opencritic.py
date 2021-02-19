@@ -1,5 +1,6 @@
 import logging
 import aiohttp
+import asyncio
 
 import discord
 from redbot.core import commands, Config, checks
@@ -38,21 +39,27 @@ class OpenCritic(commands.Cog):
 
         # Set variable to be appended to
         embeds = []
+        tasks = []
 
         # Loop and ask for more information and build embed
         gameUrl = apiUrl + '/game/'
-        for game in data:
+        async with aiohttp.ClientSession() as session:
+            for game in data:
+                # Queries api for a game information
+                url = gameUrl + str(game['id'])
+                # async with aiohttp.ClientSession() as session:
+                #     async with session.get(url=url, headers=headers) as response:
+                #         data = await response.json()
+                #         log.debug(data)
+                task = asyncio.create_task(get(session, url))
+                tasks.append(task)
 
-            # Queries api for a game information
-            url = gameUrl + str(game['id'])
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url=url, headers=headers) as response:
-                    data = await response.json()
-                    log.debug(data)
-
+        results = await asyncio.gather(*tasks)
+        
+        for result in results:
             # Build Embed
             embed = discord.Embed()
-            embed.title = "{} ({})".format(data['name'], data['medianScore'])
+            embed.title = "{} ({})".format(result['name'], result['medianScore'])
             # if data['imdbID']:
             #    embed.url = "http://www.imdb.com/title/{}".format(data['imdbID'])
             # if data['Plot']:
@@ -73,3 +80,9 @@ class OpenCritic(commands.Cog):
             embeds.append(embed)
 
         await menu(ctx, pages=embeds, controls=DEFAULT_CONTROLS, message=None, page=0, timeout=20)
+    
+    async def get(self, session, url):
+        async with session.get(url) as response:
+            if response.status != 200:
+                response.raise_for_status()
+            return await response.json()
