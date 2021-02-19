@@ -44,7 +44,7 @@ class OpenCritic(commands.Cog):
         for game in data:
 
             # Queries api for a game information
-            url = gameUrl + game['id']
+            url = gameUrl + str(game['id'])
             async with aiohttp.ClientSession() as session:
                 async with session.get(url=url, headers=headers) as response:
                     data = await response.json()
