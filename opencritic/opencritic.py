@@ -58,7 +58,7 @@ class OpenCritic(commands.Cog):
         for result in results:
             description = None
             platforms = []
-            color = None
+            color = '80B60A'
 
             if result.get('description'):
                 if len(result.get('description')) < 500:
@@ -73,14 +73,12 @@ class OpenCritic(commands.Cog):
             if result.get('tier'):
                 score = round(result['averageScore'])
 
-                color = '80b60a'
-
                 if score > 65:
-                    color = '4aa1ce'
+                    color = '4AA1CE'
                 if score > 74:
-                    color = '9e00b4'
+                    color = '9E00B4'
                 if score > 83:
-                    color = 'fc430a'
+                    color = 'FC430A'
 
             # Build Embed
             embed = discord.Embed(colour = int(color, 16))
