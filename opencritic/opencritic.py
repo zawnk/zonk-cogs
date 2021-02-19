@@ -57,7 +57,7 @@ class OpenCritic(commands.Cog):
         log.debug('creating embeds now')
         for result in results:
             description = None
-            platforms = None
+            platforms = []
             color = None
 
             if result.get('description'):
@@ -93,7 +93,7 @@ class OpenCritic(commands.Cog):
                embed.set_thumbnail(url='https:'+result['logoScreenshot']['thumbnail'])
             if result.get('tier'):
                embed.add_field(name="Tier", value=result.get('tier', 'n/a'))
-            if platforms:
+            if len(platforms) > 0:
                embed.add_field(name="Platforms", value=', '.join(platforms))
 
             embed.set_footer(text="Powered by OpenCritic")
