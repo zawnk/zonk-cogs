@@ -9,7 +9,7 @@ from .helpers import make_embed_from_gameid
 
 log = logging.getLogger("red.zonk-cogs.opencritic")
 
-class GameMenuPage(menus.AsyncIteratorPageSource):
+class GameMenuPage(menus.ListPageSource):
     def __init__(self, gameIds: List[str]):
         super().__init__(gameIds, per_page=1)
 
