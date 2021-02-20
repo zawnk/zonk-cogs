@@ -5,12 +5,11 @@ from datetime import datetime
 from .constants import API_URL
 from .menus import BaseMenu, GameMenuPage
 
-import discord
-from redbot.core import commands, Config, checks
+from redbot.core import commands
 from urllib.parse import quote
 
 log = logging.getLogger("red.zonk-cogs.opencritic")
-log.setLevel(logging.WARN)
+log.setLevel(logging.DEBUG)
 
 class OpenCritic(commands.Cog):
     """Search for games' score on OpenCritic"""
@@ -57,19 +56,3 @@ class OpenCritic(commands.Cog):
             clear_reactions_after=True,
             timeout=60,
         ).start(ctx=ctx)
-    
-    # async def getAll(self, session, urls):
-    #     log.debug('in getall '+ str(datetime.now()))
-    #     tasks = []
-    #     for url in urls:
-    #         task = asyncio.create_task(OpenCritic.get(self, session, url))
-    #         tasks.append(task)
-    #     results = await asyncio.gather(*tasks)
-    #     return results
-
-    # async def get(self, session, url):
-    #     log.debug('in getall for url '+url+' '+ str(datetime.now()))
-    #     async with session.get(url) as response:
-    #         if response.status != 200:
-    #             response.raise_for_status()
-    #         return await response.json()
