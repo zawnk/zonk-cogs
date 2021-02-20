@@ -1,6 +1,6 @@
 from typing import List
 
-import loggin
+import logging
 
 import discord
 from redbot.vendored.discord.ext import menus
