@@ -1,6 +1,5 @@
 import logging
 import discord
-from datetime import datetime
 import aiohttp
 
 from .constants import API_URL
@@ -20,7 +19,6 @@ async def make_embed_from_gameid(gameId: int):
                 response.raise_for_status()
             game = await response.json()
 
-    log.debug('building embed for game '+game['name']+' '+str(datetime.now()))
     em = None
     description = None
     scoreInfo = None
