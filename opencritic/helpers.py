@@ -10,14 +10,14 @@ log = logging.getLogger("red.zonk-cogs.opencritic")
 async def make_embed_from_gameid(gameId: int):
     """ Creates an embed from the given gameId """
 
-    data: Game = None
+    game: Game = None
     gameUrl = API_URL + '/game/'
 
     async with aiohttp.ClientSession() as session:
         async with session.get(gameUrl+str(gameId)) as response:
             if response.status != 200:
                 response.raise_for_status()
-            data = await response.json()
+            game = await response.json()
 
     em = None
     description = None
