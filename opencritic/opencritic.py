@@ -19,6 +19,10 @@ class OpenCritic(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession()
+
+    def cog_unload(self):
+        self.bot.loop.create_task(self.session.close())
 
     @commands.command()
     @commands.bot_has_permissions(embed_links=True, add_reactions=True)
@@ -26,21 +30,22 @@ class OpenCritic(commands.Cog):
         """Search for a game"""
         log.debug('in command now ' + str(datetime.now()))
 
-        headers = {"accept": "application/json"}
+        # headers = {"accept": "application/json"}
+        session = self.session
 
         # Queries api for a game
         searchUrl = API_URL + '/game/search?criteria=' + quote(title)
         data = []
 
         log.debug('starting clientsession '+ str(datetime.now()))
-        async with aiohttp.ClientSession() as session:
-            log.debug('starting get request '+ str(datetime.now()))
-            async with session.get(searchUrl) as response:
-                log.debug('checking for status '+ str(datetime.now()))
-                if response.status != 200:
-                    response.raise_for_status()
-                log.debug('awaiting to json the response next '+ str(datetime.now()))
-                data = await response.json()
+        # async with aiohttp.ClientSession() as session:
+        #     log.debug('starting get request '+ str(datetime.now()))
+        async with session.get(searchUrl) as response:
+            log.debug('checking for status '+ str(datetime.now()))
+            if response.status != 200:
+                response.raise_for_status()
+            log.debug('awaiting to json the response next '+ str(datetime.now()))
+            data = await response.json()
 
         log.debug('received results from search term '+ str(datetime.now()))
         # Handle if nothing is found
