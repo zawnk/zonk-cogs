@@ -7,14 +7,14 @@ from .dataclasses import Game
 
 log = logging.getLogger("red.zonk-cogs.opencritic")
 
-async def make_embed_from_gameid(game: Game):
-    """ Creates an embed from the given game """
+async def make_embed_from_gameid(gameId: int):
+    """ Creates an embed from the given gameId """
 
     data: Game = None
     gameUrl = API_URL + '/game/'
 
     async with aiohttp.ClientSession() as session:
-        async with session.get(gameUrl+str(game.id)) as response:
+        async with session.get(gameUrl+str(gameId)) as response:
             if response.status != 200:
                 response.raise_for_status()
             data = await response.json()
