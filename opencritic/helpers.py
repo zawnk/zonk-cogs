@@ -20,7 +20,7 @@ async def make_embed_from_gameid(gameId: int):
                 response.raise_for_status()
             game = await response.json()
 
-    log.debug('building embed for game '+game.name+' '+str(datetime.now()))
+    log.debug('building embed for game '+game['name']+' '+str(datetime.now()))
     em = None
     description = None
     scoreInfo = None
